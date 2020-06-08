@@ -1,0 +1,90 @@
+# Linux tasks
+---
+- name: Include tasks for Ubuntu systems
+  include_tasks: ubuntu.yml
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Limit SSH connections
+  ufw:
+    rule: limit
+    port: ssh
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+
+- name: Create {{ username }} user account
+  user:
+    name: "{{ username }}"
+    comment: Jacob F. Grant
+    home: "/home/{{ username }}"
+    groups: sudo
+    generate_ssh_key: yes
+    ssh_key_type: rsa
+    ssh_key_bits: 4096
+
+- name: "{{ username }} actions"
+  block:
+    - name: Download SSH authorized_keys file
+      get_url:
+        url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/af01d2d861a0a505537c3b2f216a8e760a094699/authorized_keys
+        dest: "/home/{{ username }}/.ssh/authorized_keys"
+        mode: 0644
+
+    - name: Checkout dotfiles repository
+      git:
+        repo: https://github.com/jacobfgrant/dotfiles.git
+        dest: "/home/{{ username }}/.dotfiles"
+        force: yes
+      register: update_dotfiles
+
+    - name: Symlink dotfiles
+      command:
+        cmd: "sh /home/{{ username }}/.dotfiles/stow.sh"
+        removes: "/home/{{ username }}/.dotfiles/stow.sh"
+      when: update_dotfiles.changed
+
+    - name: Check if python_requirements.txt exists
+      stat:
+        path: "/home/{{ username }}/.python_requirements.txt"
+      register: python_requirements
+
+    - name: Install Python packages using python_requirements.txt
+      pip:
+        requirements: "/home/{{ username }}/.python_requirements.txt"
+      when: python_requirements.stat.exists
+
+    - name: Install Python packages (no python_requirements.txt)
+      pip:
+        name:
+          - beautifulsoup4
+          - boto3
+          - botocore
+          - requests
+          - virtualenv
+      when: not python_requirements.stat.exists
+  become: true
+  become_user: "{{ username }}"
+
+- name: Install the Serverless framework with npm
+  npm:
+    name: serverless
+    global: yes
+
+- name: Install Packer
+  unarchive:
+    src: "https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_amd64.zip"
+    dest: /usr/local/bin/
+    remote_src: yes
+
+- name: Install Terraform
+  unarchive:
+    src: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+    dest: /usr/local/bin/
+    remote_src: yes
+
+- name: Install Golang
+  unarchive:
+    src: "https://dl.google.com/go/go{{ golang_version }}.linux-amd64.tar.gz"
+    dest: /usr/local/
+    remote_src: yes
