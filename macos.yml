@@ -1,0 +1,34 @@
+# macOS tasks
+---
+- name: Checkout dotfiles repository
+  git:
+    repo: https://github.com/jacobfgrant/dotfiles.git
+    dest: /Users/jacobfgrant/.dotfiles
+    force: yes
+  register: update_dotfiles
+
+- name: Symlink dotfiles
+  command:
+    cmd: sh /home/jfgrant/.dotfiles/stow.sh
+    removes: /home/jfgrant/.dotfiles/stow.sh
+  when: update_dotfiles.changed
+
+- name: Check if python_requirements.txt exists
+  stat:
+    path: /home/jfgrant/.python_requirements.txt
+  register: python_requirements
+
+- name: Install Python packages (python_requirements.txt)
+  pip:
+    requirements: /home/jfgrant/.python_requirements.txt
+  when: python_requirements.stat.exists
+
+- name: Install Python packages
+  pip:
+    name:
+      - beautifulsoup4
+      - boto3
+      - botocore
+      - requests
+      - virtualenv
+  when: not python_requirements.stat.exists
