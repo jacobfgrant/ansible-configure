@@ -1,0 +1,5 @@
+## ansible-lint Configuration file ##
+
+skip_list:
+  - 'ANSIBLE0004' # Install latest dotfiles repo
+  - 'ANSIBLE0010' # Install latest package versions
