@@ -39,6 +39,6 @@ TODO
 
 This playbook is customized for me. I suggest you fork it and change it to fit your needs. You *probably* don't want my SSH public keys on your system.
 
-To configure a machine using `ansible-pull`, you can run `sudo ansible-pull https://github.com/jacobfgrant/ansible-configure.git --connection=local --inventory 127.0.0.1, main.yml` on a system with Ansible installed.
+To configure a machine using `ansible-pull`, you can run `sudo ansible-pull --url https://github.com/jacobfgrant/ansible-configure.git -i $(uname -n), main.yml` on a system with Ansible installed.
 
 Alternatively, you can run this playbook as you normally would using Ansible against any number of hosts.
