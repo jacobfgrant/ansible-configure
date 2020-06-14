@@ -70,6 +70,7 @@
   npm:
     name: serverless
     global: yes
+    state: latest
 
 - name: Install Packer
   unarchive:
