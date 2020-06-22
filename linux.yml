@@ -86,6 +86,13 @@
     remote_src: yes
   when: terraform_version is defined
 
+- name: Install Vault
+  unarchive:
+    src: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
+    dest: /usr/local/bin/
+    remote_src: yes
+  when: vault_version is defined
+
 - name: Install Golang
   unarchive:
     src: "https://dl.google.com/go/go{{ golang_version }}.linux-amd64.tar.gz"
