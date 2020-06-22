@@ -66,6 +66,7 @@
 - name: Install Vagrant
   apt:
     deb: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
+  when: vagrant_version is defined
 
 - name: Install GUI applications
   block:
@@ -80,6 +81,7 @@
     - name: Install Slack
       apt:
         deb: https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack_version }}-amd64.deb
+      when: slack_version is defined
 
     - name: Install Discord
       apt:

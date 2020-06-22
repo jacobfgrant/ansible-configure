@@ -77,15 +77,18 @@
     src: "https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_amd64.zip"
     dest: /usr/local/bin/
     remote_src: yes
+  when: packer_version is defined
 
 - name: Install Terraform
   unarchive:
     src: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
     dest: /usr/local/bin/
     remote_src: yes
+  when: terraform_version is defined
 
 - name: Install Golang
   unarchive:
     src: "https://dl.google.com/go/go{{ golang_version }}.linux-amd64.tar.gz"
     dest: /usr/local/
     remote_src: yes
+  when: golang_version is defined
