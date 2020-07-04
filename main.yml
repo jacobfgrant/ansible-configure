@@ -5,8 +5,8 @@
   ## Package versions ##
     golang_version: 1.14.4
     packer_version: 1.6.0
-    slack_version: 4.4.3
-    terraform_version: 0.12.26
+    slack_version: 4.7.0
+    terraform_version: 0.12.28
     vagrant_version: 2.2.9
 
   tasks:
