@@ -25,7 +25,6 @@
       - fail2ban
       - git
       - gnupg-agent
-      - keepassx
       - make
       - npm
       - python3
@@ -87,11 +86,12 @@
       apt:
         deb: https://discord.com/api/download?platform=linux&format=deb
 
-    - name: Install Steam
+    - name: Install GUI packages
       apt:
         state: latest
         install_recommends: yes
         name:
+          - keepassx
           - steam
 
   when: "'DISPLAY' in ansible_env"
