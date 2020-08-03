@@ -3,11 +3,12 @@
 - hosts: all
   vars:
   ## Package versions ##
-    golang_version: 1.14.4
-    packer_version: 1.6.0
-    slack_version: 4.7.0
-    terraform_version: 0.12.28
+    golang_version: 1.14.6
+    packer_version: 1.6.1
+    slack_version: 4.8.0
+    terraform_version: 0.12.29
     vagrant_version: 2.2.9
+    vault_version: 1.5.0
 
   tasks:
   - name: Include tasks for Linux systems
