@@ -91,6 +91,7 @@
         state: latest
         install_recommends: yes
         name:
+          - gparted
           - keepassx
           - steam
 
