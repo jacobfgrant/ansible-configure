@@ -1,5 +1,6 @@
 ## ansible-lint Configuration file ##
 
 skip_list:
-  - 'ANSIBLE0004' # Install latest dotfiles repo
-  - 'ANSIBLE0010' # Install latest package versions
+  - '208' # File permissions not mentioned (Install latest package versions)
+  - '401' # Git checkouts must contain explicit version (Install latest dotfiles repo)
+  - '403' # Package installs should not use latest (Install Golang)
