@@ -94,7 +94,6 @@
         name:
           - gparted
           - keepassx
-          - steam
 
   when: "'DISPLAY' in ansible_env"
 
