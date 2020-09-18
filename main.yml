@@ -5,7 +5,7 @@
   ## Package versions ##
     golang_version: 1.15.2
     packer_version: 1.6.2
-    slack_version: 4.8.0
+    slack_version: 4.9.1
     terraform_version: 0.12.29
     vagrant_version: 2.2.10
     vault_version: 1.5.3
