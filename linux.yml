@@ -53,24 +53,18 @@
     - name: Install Python packages using python_requirements.txt
       pip:
         requirements: "/home/{{ username }}/.python_requirements.txt"
+        state: latest
       when: python_requirements.stat.exists
-
-    - name: Install Python packages (no python_requirements.txt)
-      pip:
-        name:
-          - beautifulsoup4
-          - boto3
-          - botocore
-          - requests
-          - virtualenv
-      when: not python_requirements.stat.exists
   become: true
   become_user: "{{ username }}"
 
-- name: Install the Serverless framework with npm
-  npm:
-    name: serverless
-    global: yes
+- name: Install Ansible using pip
+  pip:
+    name:
+      - ansible
+      - ansible-base
+      - ansible-lint
+      - pip
     state: latest
 
 - name: Install Packer
