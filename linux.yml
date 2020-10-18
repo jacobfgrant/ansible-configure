@@ -18,6 +18,7 @@
     name: "{{ username }}"
     comment: Jacob F. Grant
     home: "/home/{{ username }}"
+    shell: /bin/bash
     groups: sudo
     generate_ssh_key: yes
     ssh_key_type: rsa
