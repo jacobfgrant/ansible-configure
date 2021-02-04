@@ -58,15 +58,6 @@
   become: true
   become_user: "{{ username }}"
 
-- name: Install Ansible using pip
-  pip:
-    name:
-      - ansible
-      - ansible-base
-      - ansible-lint
-      - pip
-    state: latest
-
 - name: Install Packer
   unarchive:
     src: "https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_amd64.zip"

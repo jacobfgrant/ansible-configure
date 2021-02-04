@@ -11,6 +11,8 @@
     state: latest
     install_recommends: yes
     name:
+      - ansible
+      - ansible-lint
       - aptitude
       - apt-transport-https
       - awscli
