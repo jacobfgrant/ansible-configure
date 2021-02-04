@@ -28,7 +28,7 @@
   block:
     - name: Download SSH authorized_keys file
       get_url:
-        url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/af01d2d861a0a505537c3b2f216a8e760a094699/authorized_keys
+        url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
         dest: "/home/{{ username }}/.ssh/authorized_keys"
         mode: 0644
 
