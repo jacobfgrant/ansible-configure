@@ -21,6 +21,7 @@
       - fail2ban
       - git
       - gnupg-agent
+      - latexmk
       - make
       - npm
       - python3
