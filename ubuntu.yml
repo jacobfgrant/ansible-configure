@@ -59,10 +59,24 @@
       - docker-ce-cli
       - docker-compose
 
-- name: Install Vagrant
+- name: Add Hashicorp GPG key
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: Add Hashicorp repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_facts.distribution_release }} main"
+    update_cache: true
+
+- name: Install Hashicorp packages
   apt:
-    deb: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
-  when: vagrant_version is defined
+    state: latest
+    name:
+      - packer
+      - terraform
+      - vagrant
+      - vault
 
 - name: Install GUI applications
   block:
