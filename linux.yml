@@ -23,6 +23,7 @@
     generate_ssh_key: yes
     ssh_key_type: rsa
     ssh_key_bits: 4096
+  tags: user
 
 - name: "{{ username }} actions"
   block:
@@ -49,14 +50,18 @@
       stat:
         path: "/home/{{ username }}/.python_requirements.txt"
       register: python_requirements
+      tags: installs
 
     - name: Install Python packages using python_requirements.txt
       pip:
         requirements: "/home/{{ username }}/.python_requirements.txt"
         state: latest
       when: python_requirements.stat.exists
+      tags: installs
+
   become: true
   become_user: "{{ username }}"
+  tags: user
 
 - name: Install Golang
   unarchive:
@@ -66,3 +71,4 @@
     group: root
     remote_src: yes
   when: golang_version is defined
+  tags: installs
