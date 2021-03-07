@@ -13,6 +13,11 @@
   ufw:
     state: enabled
 
+- name: Ensure docker group exists
+  group:
+    name: docker
+    state: present
+
 - name: Create {{ username }} user account
   user:
     name: "{{ username }}"
