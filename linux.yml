@@ -13,13 +13,23 @@
   ufw:
     state: enabled
 
+- name: Ensure docker group exists
+  group:
+    name: docker
+    state: present
+    system: yes
+  tags: user
+
 - name: Create {{ username }} user account
   user:
     name: "{{ username }}"
     comment: Jacob F. Grant
     home: "/home/{{ username }}"
     shell: /bin/bash
-    groups: sudo
+    groups:
+      - docker
+      - sudo
+    append: yes
     generate_ssh_key: yes
     ssh_key_type: rsa
     ssh_key_bits: 4096
