@@ -26,7 +26,10 @@
     comment: Jacob F. Grant
     home: "/home/{{ username }}"
     shell: /bin/bash
-    groups: sudo
+    groups:
+      - docker
+      - sudo
+    append: yes
     generate_ssh_key: yes
     ssh_key_type: rsa
     ssh_key_bits: 4096
