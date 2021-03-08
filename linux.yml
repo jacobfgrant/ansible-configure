@@ -17,6 +17,7 @@
   group:
     name: docker
     state: present
+    system: yes
 
 - name: Create {{ username }} user account
   user:
