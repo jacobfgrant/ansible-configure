@@ -18,6 +18,7 @@
     name: docker
     state: present
     system: yes
+  tags: user
 
 - name: Create {{ username }} user account
   user:
