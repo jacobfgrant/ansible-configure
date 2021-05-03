@@ -3,8 +3,8 @@
 - hosts: all
   vars:
   ## Package versions ##
-    golang_version: 1.16
-    slack_version: 4.9.1
+    golang_version: 1.16.3
+    slack_version: 4.15.0
 
   tasks:
   - name: Include tasks for Linux systems
