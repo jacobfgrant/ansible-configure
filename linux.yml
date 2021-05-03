@@ -55,6 +55,7 @@
         cmd: "sh /home/{{ username }}/.dotfiles/stow.sh"
         removes: "/home/{{ username }}/.dotfiles/stow.sh"
       when: update_dotfiles.changed
+      ignore_errors: yes
 
     - name: Check if python_requirements.txt exists
       stat:
