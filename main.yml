@@ -7,8 +7,8 @@
     slack_version: 4.23.0
 
   tasks:
-  - name: Include tasks for Linux systems
-    include_tasks: linux.yml
-    when: ansible_facts['system'] == "Linux"
-    vars:
-      username: jfgrant
+    - name: Include tasks for Linux systems
+      include_tasks: linux.yml
+      when: ansible_facts['system'] == "Linux"
+      vars:
+        username: jfgrant

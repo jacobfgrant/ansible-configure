@@ -3,13 +3,13 @@
 - name: Update/upgrade packages
   apt:
     upgrade: dist
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 - name: Install required packages
   apt:
     state: latest
-    install_recommends: yes
+    install_recommends: true
     name:
       - ansible
       - ansible-lint
@@ -38,27 +38,27 @@
 
 - name: Install/configure Docker
   block:
-  - name: Add Docker GPG key
-    apt_key:
-      id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
-    tags: installs
+    - name: Add Docker GPG key
+      apt_key:
+        id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      tags: installs
 
-  - name: Add Docker repository (stable)
-    apt_repository:
-      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable"
-      update_cache: true
-    tags: installs
+    - name: Add Docker repository (stable)
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable"
+        update_cache: true
+      tags: installs
 
-  - name: Install Docker packages
-    apt:
-      state: latest
-      name:
-        - containerd.io
-        - docker-ce
-        - docker-ce-cli
-        - docker-compose
+    - name: Install Docker packages
+      apt:
+        state: latest
+        name:
+          - containerd.io
+          - docker-ce
+          - docker-ce-cli
+          - docker-compose
 
   tags:
     - docker
@@ -99,7 +99,7 @@
     - name: Install Slack
       apt:
         deb: https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack_version }}-amd64.deb
-      ignore_errors: yes
+      ignore_errors: true
       when: slack_version is defined
 
     - name: Install Discord
@@ -109,7 +109,7 @@
     - name: Install GUI packages
       apt:
         state: latest
-        install_recommends: yes
+        install_recommends: true
         name:
           - gparted
           - keepassx
@@ -121,4 +121,4 @@
 
 - name: Remove dependencies that are no longer required
   apt:
-    autoremove: yes
+    autoremove: true
