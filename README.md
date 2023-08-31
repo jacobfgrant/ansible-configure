@@ -13,12 +13,9 @@ Updates packages, configures UFW to allow SSH, creates a user, installs my [dotf
 
 * Ansible
 * Docker
-* LaTeX
 * Packer
-* Python 3
-* Serverless
+* Python3
 * Terraform
-* Vagrant
 * Vim
 * Zsh
 

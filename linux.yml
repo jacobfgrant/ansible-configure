@@ -57,17 +57,13 @@
       when: update_dotfiles.changed
       ignore_errors: yes
 
-    - name: Check if python_requirements.txt exists
-      stat:
-        path: "/home/{{ username }}/.python_requirements.txt"
-      register: python_requirements
-      tags: installs
-
-    - name: Install Python packages using python_requirements.txt
+    - name: Install Ansible
       pip:
-        requirements: "/home/{{ username }}/.python_requirements.txt"
+        name:
+          - ansible
+          - ansible-lint
+          - argcomplete
         state: latest
-      when: python_requirements.stat.exists
       tags: installs
 
   become: true
