@@ -1,13 +1,13 @@
 # Ubuntu tasks
 ---
 - name: Update/upgrade packages
-  apt:
+  ansible.builtin.apt:
     upgrade: dist
     update_cache: true
     cache_valid_time: 3600
 
 - name: Install required packages
-  apt:
+  ansible.builtin.apt:
     state: latest
     install_recommends: true
     name:
@@ -38,20 +38,20 @@
 - name: Install/configure Docker
   block:
     - name: Add Docker GPG key
-      apt_key:
+      ansible.builtin.apt_key:
         id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
       tags: installs
 
     - name: Add Docker repository (stable)
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable"
         update_cache: true
       tags: installs
 
     - name: Install Docker packages
-      apt:
+      ansible.builtin.apt:
         state: latest
         name:
           - containerd.io
@@ -64,19 +64,19 @@
     - installs
 
 - name: Add Hashicorp GPG key
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://apt.releases.hashicorp.com/gpg
     state: present
   tags: installs
 
 - name: Add Hashicorp repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_facts.distribution_release }} main"
     update_cache: true
   tags: installs
 
 - name: Install Hashicorp packages
-  apt:
+  ansible.builtin.apt:
     state: latest
     name:
       - packer
@@ -87,25 +87,25 @@
 - name: Install GUI applications
   block:
     - name: Install Visual Studio Code
-      apt:
+      ansible.builtin.apt:
         deb: https://go.microsoft.com/fwlink/?LinkID=760868
 
     - name: Install Google Chrome
-      apt:
+      ansible.builtin.apt:
         deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
     - name: Install Slack
-      apt:
+      ansible.builtin.apt:
         deb: https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack_version }}-amd64.deb
       ignore_errors: true
       when: slack_version is defined
 
     - name: Install Discord
-      apt:
+      ansible.builtin.apt:
         deb: https://discord.com/api/download?platform=linux&format=deb
 
     - name: Install GUI packages
-      apt:
+      ansible.builtin.apt:
         state: latest
         install_recommends: true
         name:
@@ -118,5 +118,5 @@
     - installs
 
 - name: Remove dependencies that are no longer required
-  apt:
+  ansible.builtin.apt:
     autoremove: true

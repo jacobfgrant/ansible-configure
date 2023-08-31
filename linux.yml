@@ -1,27 +1,27 @@
 # Linux tasks
 ---
 - name: Include tasks for Ubuntu systems
-  include_tasks: ubuntu.yml
+  ansible.builtin.include_tasks: ubuntu.yml
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Limit SSH connections
-  ufw:
+  community.general.ufw:
     rule: limit
     port: ssh
 
 - name: Enable UFW
-  ufw:
+  community.general.ufw:
     state: enabled
 
 - name: Ensure docker group exists
-  group:
+  ansible.builtin.group:
     name: docker
     state: present
     system: yes
   tags: user
 
 - name: Create {{ username }} user account
-  user:
+  ansible.builtin.user:
     name: "{{ username }}"
     comment: Jacob F. Grant
     home: "/home/{{ username }}"
@@ -38,27 +38,27 @@
 - name: "{{ username }} actions"
   block:
     - name: Download SSH authorized_keys file
-      get_url:
+      ansible.builtin.get_url:
         url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
         dest: "/home/{{ username }}/.ssh/authorized_keys"
         mode: 0644
 
     - name: Checkout dotfiles repository
-      git:
+      ansible.builtin.git:
         repo: https://github.com/jacobfgrant/dotfiles.git
         dest: "/home/{{ username }}/.dotfiles"
         force: yes
       register: update_dotfiles
 
     - name: Symlink dotfiles
-      command:
+      ansible.builtin.command:
         cmd: "sh /home/{{ username }}/.dotfiles/stow.sh"
         removes: "/home/{{ username }}/.dotfiles/stow.sh"
       when: update_dotfiles.changed
       ignore_errors: yes
 
     - name: Install Ansible
-      pip:
+      ansible.builtin.pip:
         name:
           - ansible
           - ansible-lint
@@ -71,7 +71,7 @@
   tags: user
 
 - name: Install Golang
-  unarchive:
+  ansible.builtin.unarchive:
     src: "https://dl.google.com/go/go{{ golang_version }}.linux-amd64.tar.gz"
     dest: /usr/local/
     owner: root
