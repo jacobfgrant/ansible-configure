@@ -22,6 +22,7 @@
         name:
           - ansible
           - ansible-lint
+          - bash
           - git
           - go
           - python3
