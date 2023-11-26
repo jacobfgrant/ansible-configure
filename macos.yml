@@ -1,0 +1,53 @@
+# macOS tasks
+---
+- name: Create {{ username }} user account
+  ansible.builtin.user:
+    name: "{{ username }}"
+    comment: Jacob F. Grant
+    generate_ssh_key: yes
+    ssh_key_type: rsa
+    ssh_key_bits: 4096
+  tags: user
+
+- name: "{{ username }} actions"
+  block:
+
+    - name: Upgrade/update Homebrew
+      community.general.homebrew:
+        update_homebrew: true
+        upgrade_all: true
+
+    - name: Install Homebrew packages
+      community.general.homebrew:
+        name:
+          - ansible
+          - ansible-lint
+          - git
+          - go
+          - python3
+          - stow
+        state: present
+
+    - name: Download SSH authorized_keys file
+      ansible.builtin.get_url:
+        url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
+        dest: "/Users/{{ username }}/.ssh/authorized_keys"
+        mode: 0644
+
+    - name: Checkout dotfiles repository
+      ansible.builtin.git:
+        repo: https://github.com/jacobfgrant/dotfiles.git
+        dest: "/Users/{{ username }}/.dotfiles"
+        force: true
+      register: update_dotfiles
+
+    - name: Symlink dotfiles
+      ansible.builtin.command:
+        cmd: "sh /Users/{{ username }}/.dotfiles/stow.sh"
+        removes: "/Users/{{ username }}/.dotfiles/stow.sh"
+      when: update_dotfiles.changed
+
+  become: true
+  become_user: "{{ username }}"
+  tags: user
+
