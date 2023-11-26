@@ -12,3 +12,11 @@
       when: ansible_facts['system'] == "Linux"
       vars:
         username: jfgrant
+
+
+    - name: Include tasks for MacOS systems
+      ansible.builtin.include_tasks: macos.yml
+      when: ansible_facts['system'] == "Darwin"
+      vars:
+        username: jacobfgrant
+
