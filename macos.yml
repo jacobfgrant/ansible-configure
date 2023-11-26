@@ -46,6 +46,7 @@
         cmd: "sh /Users/{{ username }}/.dotfiles/stow.sh"
         removes: "/Users/{{ username }}/.dotfiles/stow.sh"
       when: update_dotfiles.changed
+      ignore_errors: yes
 
   become: true
   become_user: "{{ username }}"
