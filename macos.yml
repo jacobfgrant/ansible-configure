@@ -9,6 +9,14 @@
     ssh_key_bits: 4096
   tags: user
 
+- name: Download SSH authorized_keys file
+  ansible.builtin.get_url:
+    url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
+    dest: "/Users/{{ username }}/.ssh/authorized_keys"
+    owner: "{{ username }}"
+    group: staff
+    mode: 0644
+
 - name: "{{ username }} actions"
   block:
 
@@ -28,12 +36,6 @@
           - python3
           - stow
         state: present
-
-    - name: Download SSH authorized_keys file
-      ansible.builtin.get_url:
-        url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
-        dest: "/Users/{{ username }}/.ssh/authorized_keys"
-        mode: 0644
 
     - name: Checkout dotfiles repository
       ansible.builtin.git:
