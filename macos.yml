@@ -42,6 +42,7 @@
         repo: https://github.com/jacobfgrant/dotfiles.git
         dest: "/Users/{{ username }}/.dotfiles"
         force: true
+        version: dev
       register: update_dotfiles
 
     - name: Symlink dotfiles
