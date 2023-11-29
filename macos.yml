@@ -13,6 +13,7 @@
   ansible.builtin.get_url:
     url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
     dest: "/Users/{{ username }}/.ssh/authorized_keys"
+    force: true
     owner: "{{ username }}"
     group: staff
     mode: 0644

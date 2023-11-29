@@ -41,6 +41,7 @@
       ansible.builtin.get_url:
         url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
         dest: "/home/{{ username }}/.ssh/authorized_keys"
+        force: true
         mode: 0644
 
     - name: Checkout dotfiles repository
