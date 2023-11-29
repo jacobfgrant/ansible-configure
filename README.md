@@ -29,7 +29,14 @@ If the machine includes a GUI, this playbook also installs:
 
 ## macOS
 
-TODO
+Requires [Homebrew](https://brew.sh/) be already installed.
+
+Upgrades Homebrew, installs and updates Homebrew packages, configures a user, and installs my [dotfiles repo](https://github.com/jacobfgrant/dotfiles). Installed packages include:
+
+- Ansible
+- Go
+- Python3
+- Stow
 
 
 # Usage
