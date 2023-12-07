@@ -4,7 +4,6 @@
   vars:
   ## Package versions ##
     golang_version: 1.21.0
-    slack_version: 4.33.90
 
   tasks:
     - name: Include tasks for Linux systems
@@ -19,4 +18,3 @@
       when: ansible_facts['system'] == "Darwin"
       vars:
         username: jacobfgrant
-
