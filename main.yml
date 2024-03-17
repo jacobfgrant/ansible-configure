@@ -1,6 +1,6 @@
 # Main playbook file
 ---
-- hosts: localhost
+- hosts: 127.0.0.1
   vars:
   ## Package versions ##
     golang_version: 1.21.0
