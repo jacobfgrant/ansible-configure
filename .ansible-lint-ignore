@@ -1,0 +1,5 @@
+# This file contains ignores rule violations for ansible-lint
+linux.yml latest[git]
+linux.yml package-latest
+macos.yml latest[git]
+ubuntu.yml package-latest
