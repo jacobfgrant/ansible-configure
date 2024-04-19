@@ -1,10 +1,10 @@
 # macOS tasks
 ---
-- name: Create {{ username }} user account and ssh key
+- name: "Create user account -- {{ username }}"
   ansible.builtin.user:
     name: "{{ username }}"
     comment: Jacob F. Grant
-    generate_ssh_key: yes
+    generate_ssh_key: true
     ssh_key_type: rsa
     ssh_key_bits: 4096
   tags: user
@@ -16,12 +16,14 @@
     force: true
     owner: "{{ username }}"
     group: staff
-    mode: 0644
+    mode: "0644"
   tags: user
 
-- name: "{{ username }} actions"
+- name: Configure user
+  become: true
+  become_user: "{{ username }}"
+  tags: user
   block:
-
     - name: Upgrade/update Homebrew
       community.general.homebrew:
         update_homebrew: true
@@ -51,10 +53,6 @@
       ansible.builtin.command:
         cmd: "sh /Users/{{ username }}/.dotfiles/stow.sh"
         removes: "/Users/{{ username }}/.dotfiles/stow.sh"
-      when: update_dotfiles.changed
-      ignore_errors: yes
-
-  become: true
-  become_user: "{{ username }}"
-  tags: user
-
+      when: update_dotfiles.changed # noqa: no-handler
+      ignore_errors: true
+      register: symlink_dotfiles_failed

@@ -17,10 +17,10 @@
   ansible.builtin.group:
     name: docker
     state: present
-    system: yes
+    system: true
   tags: user
 
-- name: Create {{ username }} user account
+- name: "Create user account -- {{ username }}"
   ansible.builtin.user:
     name: "{{ username }}"
     comment: Jacob F. Grant
@@ -29,34 +29,38 @@
     groups:
       - docker
       - sudo
-    append: yes
-    generate_ssh_key: yes
+    append: true
+    generate_ssh_key: true
     ssh_key_type: rsa
     ssh_key_bits: 4096
   tags: user
 
-- name: "{{ username }} actions"
+- name: Configure user
+  become: true
+  become_user: "{{ username }}"
+  tags: user
   block:
     - name: Download SSH authorized_keys file
       ansible.builtin.get_url:
         url: https://gist.githubusercontent.com/jacobfgrant/40328a116c7fa215e01af4c4a63a5059/raw/authorized_keys
         dest: "/home/{{ username }}/.ssh/authorized_keys"
         force: true
-        mode: 0644
+        mode: "0644"
 
     - name: Checkout dotfiles repository
       ansible.builtin.git:
         repo: https://github.com/jacobfgrant/dotfiles.git
         dest: "/home/{{ username }}/.dotfiles"
-        force: yes
+        force: true
       register: update_dotfiles
 
     - name: Symlink dotfiles
       ansible.builtin.command:
         cmd: "sh /home/{{ username }}/.dotfiles/stow.sh"
         removes: "/home/{{ username }}/.dotfiles/stow.sh"
-      when: update_dotfiles.changed
-      ignore_errors: yes
+      when: update_dotfiles.changed # noqa: no-handler
+      ignore_errors: true
+      register: symlink_dotfiles_failed
 
     - name: Install Ansible
       ansible.builtin.pip:
@@ -67,16 +71,12 @@
         state: latest
       tags: installs
 
-  become: true
-  become_user: "{{ username }}"
-  tags: user
-
 - name: Install Golang
   ansible.builtin.unarchive:
     src: "https://dl.google.com/go/go{{ golang_version }}.linux-amd64.tar.gz"
     dest: /usr/local/
     owner: root
     group: root
-    remote_src: yes
+    remote_src: true
   when: golang_version is defined
   tags: installs

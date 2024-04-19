@@ -1,6 +1,7 @@
 # Main playbook file
 ---
-- hosts: all
+- name: Configure a *nix machine using Ansible
+  hosts: all
   vars:
   ## Package versions ##
     golang_version: 1.21.0
