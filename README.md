@@ -1,6 +1,6 @@
 # ansible-configure
 
-![Ansible Lint](https://github.com/jacobfgrant/ansible-configure/workflows/Ansible%20Lint/badge.svg?branch=master)
+[![Ansible Lint](https://github.com/jacobfgrant/ansible-configure/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/jacobfgrant/ansible-configure/actions/workflows/ansible-lint.yml)
 
 Ansible playbook to set up and configure a *nix machine.
 
